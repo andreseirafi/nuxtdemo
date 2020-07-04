@@ -1,0 +1,19 @@
+{
+  "name": "testme",
+  "version": "1.0.0",
+  "description": "Just a test project",
+  "author": "Andre Seirafi",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@nuxtjs/axios": "^5.11.0",
+    "lodash": "^4.17.15",
+    "nuxt": "^2.0.0"
+  },
+  "devDependencies": {}
+}
