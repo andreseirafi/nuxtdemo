@@ -1,11 +1,18 @@
 export default {
+    
+    // mode -> "universal" or "spa"
     mode: 'universal',
+    
+    // target -> "server" or "static"
+    target: 'static',
+    
+    // router options
     router: {
+        // base-url (when final nuxt-app is not in root of web-server)
         base: '/dist/'
     },
-    /*
-     ** Headers of the page
-     */
+    
+    // page-headers
     head: {
         title: process.env.npm_package_name || '',
         meta: [
@@ -17,37 +24,42 @@ export default {
             { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
         ]
     },
-    /*
-     ** Customize the progress-bar color
-     */
+
+    // progress-bar-color
     loading: { color: '#fff' },
-    /*
-     ** Global CSS
-     */
+    
+    // global CSS
     css: [],
-    /*
-     ** Plugins to load before mounting the App
-     */
+
+    // Plugins to load before mounting the App
     plugins: ['~/plugins/fg_global_mixin', '~/plugins/lodash_mixin'],
-    /*
-     ** Nuxt.js dev-modules
-     */
+    
+    // Nuxt.js dev-modules
     buildModules: [],
-    /*
-     ** Nuxt.js modules
-     */
+    
+    // Nuxt.js modules
     modules: [
         '@nuxtjs/axios'
     ],
-    /*
-     ** Build configuration
-     */
+
+    // custom routes (for static file generation)
+    generate: {
+        routes: [
+            '/stops/1',
+            '/stops/3'
+        ]
+    },
+
+
+    // Build configuration
     build: {
         /*
          ** You can extend webpack config here
          */
         extend(config, ctx) {}
     },
+
+    // Axios config
     axios: {
         // extra config e.g
         // BaseURL: 'https://link-to-API'
