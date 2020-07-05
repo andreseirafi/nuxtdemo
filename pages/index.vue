@@ -13,7 +13,7 @@
       <h1>Dear {{fg_state.my_name}}: <br/> Welcome to HOME!!!</h1>
 
       <!-- just a duck-image -->
-      <img src="~/assets/duck.png">
+      <img style="width:200px;" src="~/assets/duck.png">
       <br/><br/>
 
       <!--  Stops-List (static stops - without fg.content) -->
