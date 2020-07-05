@@ -1,3 +1,6 @@
+import webpack from 'webpack'
+
+
 export default {
     
     // mode -> "universal" or "spa"
@@ -34,7 +37,7 @@ export default {
     css: [],
 
     // Plugins to load before mounting the App
-    plugins: ['~/plugins/fg_global_mixin', '~/plugins/lodash_mixin'],
+    plugins: ['~/plugins/fg_global_mixin'],
     
     // Nuxt.js dev-modules
     buildModules: [],
@@ -53,12 +56,17 @@ export default {
     },
 
 
-    // Build configuration
+    // Build configuration (webpack extensions)
     build: {
-        /*
-         ** You can extend webpack config here
-         */
-        extend(config, ctx) {}
+        // extend webpack here
+        extend(config, ctx) {},
+        // webpack plugins
+        plugins: [
+            new webpack.ProvidePlugin({
+              // global modules
+              '_': 'lodash'
+            })
+          ]
     },
 
     // Axios config
