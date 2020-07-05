@@ -9,7 +9,9 @@ export default {
     // router options
     router: {
         // base-url (when final nuxt-app is not in root of web-server)
-        base: '/dist/'
+        base: '/dist/',
+        // middleware
+        middleware: ['user-agent']
     },
     
     // page-headers

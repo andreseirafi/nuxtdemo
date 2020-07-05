@@ -1,13 +1,22 @@
 <template>
   <div>
 
+    <!-- AJAX Loading-Animation -->
     <template v-if="fg_content.content_loaded==false">
       <div class="content_loading">CONTENT LOADING....</div>
     </template>
 
+    <!-- Content Loaded -->
     <template v-else>
+
       <!-- Welcome Message -->
       <h1>Dear {{fg_state.my_name}}: <br/> Welcome to HOME!!!</h1>
+      
+      <!-- useragent -->
+      {{ useragent }}
+
+      <!-- just a duck-image -->
+      <img src="~/assets/duck.png">
       <br/><br/>
 
       <!--  Stops-List (static stops - without fg.content) -->
@@ -15,7 +24,7 @@
       <nuxt-link to="/stops/3">Jump to Stop 2</nuxt-link><br/><br/>
 
       <!-- Stops-List from fg.content-stops (via ajax) -->
-      <div v-for="stop in fg_content.stops">
+      <div v-for="stop in fg_content.stops" :key="stop.id">
           <nuxt-link to="/stops/1">Jump to Stop {{stop.title}}</nuxt-link><br/><br/>
       </div>
 
@@ -24,6 +33,7 @@
         <nuxt-link to="/name_change">PROFILE</nuxt-link>
         <nuxt-link to="/impressum">IMPRESSUM</nuxt-link>
       </div>
+      
     </template>
 
 
@@ -41,7 +51,7 @@
 export default {
   data () {
     return {
-
+      useragent: 'CHROOOME'
     }
   },
   computed: {
@@ -49,6 +59,12 @@ export default {
       if (this.fg_content.content_loaded) return this.fg_content.stops[2];
       else return false;
     }
+  },
+  asyncData ({ $axios }) {
+    return $axios.get('https://andre.fluxguide.com/fluxguide/public/content/fluxguide/system_cache/content_stops_1.json')
+      .then((res) => {
+        return { my_content_here: res.data }
+      })
   },
   async created() {
       // content was already loaded -> exit
