@@ -11,6 +11,24 @@ fg.content = Vue.observable({
     content_loaded: false
 });
 
+
+// get content
+async function get_content() {
+    // get content.json
+    var result = await axios.get('https://andre.fluxguide.com/fluxguide/public/content/fluxguide/system_cache/content_stops_1.json', {
+        responseType: 'json'
+    });
+    // map stops
+    fg.content.stops = result.data.data.stops[2];
+    //Vue.set(fg.state, 'my_name', "Andre Seirafi");
+    // set content_loaded-flag
+    fg.content.content_loaded = true;
+}
+// call get_content()
+get_content();
+
+
+
 // init fg.state
 fg.state = Vue.observable({});
 Vue.set(fg.state, 'my_name', "Andre Seirafi");

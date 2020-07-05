@@ -37,7 +37,9 @@ export default {
     css: [],
 
     // Plugins to load before mounting the App
-    plugins: ['~/plugins/fg_global_mixin'],
+    plugins: [
+        '~/plugins/fg_init'
+    ],
     
     // Nuxt.js dev-modules
     buildModules: [],

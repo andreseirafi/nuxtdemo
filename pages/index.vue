@@ -11,9 +11,6 @@
 
       <!-- Welcome Message -->
       <h1>Dear {{fg_state.my_name}}: <br/> Welcome to HOME!!!</h1>
-      
-      <!-- useragent -->
-      {{ useragent }}
 
       <!-- just a duck-image -->
       <img src="~/assets/duck.png">
@@ -25,7 +22,7 @@
 
       <!-- Stops-List from fg.content-stops (via ajax) -->
       <div v-for="stop in fg_content.stops" :key="stop.id">
-          <nuxt-link to="/stops/1">Jump to Stop {{stop.title}}</nuxt-link><br/><br/>
+          <nuxt-link :to="{path: 'stops/' + stop.id}">Jump to Stop {{stop.title}}</nuxt-link><br/><br/>
       </div>
 
       <!-- Meta Links -->
@@ -49,33 +46,35 @@
 
 <script>
 export default {
-  data () {
-    return {
-      useragent: 'CHROOOME'
-    }
-  },
-  computed: {
-    stops() {
-      if (this.fg_content.content_loaded) return this.fg_content.stops[2];
-      else return false;
-    }
-  },
-  asyncData ({ $axios }) {
-    return $axios.get('https://andre.fluxguide.com/fluxguide/public/content/fluxguide/system_cache/content_stops_1.json')
-      .then((res) => {
-        return { my_content_here: res.data }
-      })
-  },
-  async created() {
-      // content was already loaded -> exit
-      if (this.fg_content.content_loaded == true) return;
-      // get content.json
-      let my_result = await this.$axios.get('https://andre.fluxguide.com/fluxguide/public/content/fluxguide/system_cache/content_stops_1.json', {
-          responseType: 'json'
-      });
-      this.fg_content.stops = my_result.data.data.stops[2];
-      this.fg_content.content_loaded = true;
-  }
+  // data () {
+  //   return {
+  //     whatever: 'WHAT??'
+  //   }
+  // },
+  // computed: {
+  //   stops() {
+  //     if (this.fg_content.content_loaded) return this.fg_content.stops[2];
+  //     else return false;
+  //   }
+  // },
+  // // load-content -> METHOD 1 -> asyncdata - axios with promise
+  // asyncData ({ $axios }) {
+  //   return $axios.get('https://andre.fluxguide.com/fluxguide/public/content/fluxguide/system_cache/content_stops_1.json')
+  //     .then((res) => {
+  //       return { my_content_method_1: res.data }
+  //     })
+  // },
+  // // load-content -> METHOD 2 -> async created() - axios with await
+  // async created() {
+  //     // content was already loaded -> exit
+  //     if (this.fg_content.content_loaded == true) return;
+  //     // get content.json
+  //     let my_result = await this.$axios.get('https://andre.fluxguide.com/fluxguide/public/content/fluxguide/system_cache/content_stops_1.json', {
+  //         responseType: 'json'
+  //     });
+  //     this.my_content_method_2.stops = my_result.data.data.stops[2];
+  //     this.my_content_method_3.content_loaded = true;
+  // }
 }
 </script>
 
