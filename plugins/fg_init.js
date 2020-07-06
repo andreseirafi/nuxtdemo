@@ -1,34 +1,34 @@
 import Vue from 'vue'   
 import axios from 'axios';
 
+// define fluxguide_core base-url
+var fg_core_baseurl = "https://andre.fluxguide.com/fluxguide/";
+
+// for testing
+var visitor_id_js = "dd255415-2778-4c57-b9e9-2749cf31fd13-1593723910596";
 
 // init fg
 var fg = {};
-
-// init fg.content
-fg.content = Vue.observable({
-    stops: {},
-    content_loaded: false
+fg = Vue.observable({
+    startup_content_loaded: false,
+    startup_translations_loaded: false,
+    startup_visitor_loaded: false,
+    state: {}
 });
 
-
-
-// call get_content()
+//// define main app-data
+// get_content()
 get_content();
-
-
-
-// init fg.state
-fg.state = Vue.observable({});
-Vue.set(fg.state, 'my_name', "Andre Seirafi");
-Vue.set(fg.state, 'language', "DE");
+// get translations
+get_translations();
+// get visitor
+get_visitor();
 
 // init global vue-mixins
 Vue.mixin({
     data: function() {
         return {
-            fg_state: fg.state,
-            fg_content: fg.content
+            fg: fg
         }
     }
 });
@@ -44,6 +44,10 @@ export default ({ app }, inject) => {
 
 
 
+
+
+
+
 ///////////////////////////////////////////////
 // get_content()
 // DESCRIPTION: get content from server
@@ -51,18 +55,15 @@ export default ({ app }, inject) => {
 async function get_content() {
     try {
         // get content
-        var result_1 = await axios.get('https://andre.fluxguide.com/fluxguide/public/content/fluxguide/system_cache/content_1.json', {
-            responseType: 'json'
-        });
+        let result_1 = await axios.get(fg_core_baseurl + 'public/content/fluxguide/system_cache/content_1.json', {responseType: 'json'});
+        Vue.set(fg, 'content', result_1.data.data);
+        
         // get content.stops
-        var result_2 = await axios.get('https://andre.fluxguide.com/fluxguide/public/content/fluxguide/system_cache/content_stops_1.json', {
-            responseType: 'json'
-        });
-        // set fg.content.stops
-        fg.content = result_2.data;
-        fg.content.stops = result_2.data.data.stops[2];
+        let result_2 = await axios.get(fg_core_baseurl + 'public/content/fluxguide/system_cache/content_stops_1.json', {responseType: 'json'});
+        Vue.set(fg.content, 'stops', result_2.data.data.stops);
+        
         // set content_loaded-flag
-        fg.content.content_loaded = true;
+        fg.startup_content_loaded = true;
     } 
     // ERROR-CASE - url not found
     catch(error) {
@@ -79,32 +80,32 @@ async function get_content() {
 async function get_translations() {
     try {
         // get translations
-        var result = await axios.get('https://andre.fluxguide.com/fluxguide/public/content/fluxguide/system_cache/translations_1.json', {
-            responseType: 'json'
-        });
-        // set fg.content.stops
-        fg.translations = result.data;
+        var result = await axios.get(fg_core_baseurl + 'public/content/fluxguide/system_cache/translations_1.json', {responseType: 'json'});
+        // set fg.translations
+        Vue.set(fg, 'translations', result.data);
+        // set content_loaded-flag
+        fg.startup_translations_loaded = true;
     } 
     // ERROR-CASE - url not found
     catch(error) {
-        console.log("Error loading content.json", error);
+        console.log("Error loading translations.json", error);
     }
 }
 
 
 
 ///////////////////////////////////////////////
-// get_visitor_data()
-// DESCRIPTION: get visitor-datat from server
+// get_visitor()
+// DESCRIPTION: get visitor from server
 ///////////////////////////////////////////////
-async function get_visitor_data() {
+async function get_visitor() {
     try {
         // get translations
-        var result = await axios.get('https://andre.fluxguide.com/fluxguide/fluxguide_api/get_visitor_data/', {
-            responseType: 'json'
-        });
-        // set fg.content.stops
-        fg.visitor = result.data;
+        var result = await axios.get(fg_core_baseurl + 'fluxguide_api/get_visitor_data/' + visitor_id_js, {responseType: 'json'});
+        // set fg.visitor
+        Vue.set(fg, 'visitor', result.data.data);
+        // set visitor-loaded-flag
+        fg.startup_visitor_loaded = true;
 
         // init visitor-state-change-detection
         // //// make some vue-stuff with fg.visitor.state

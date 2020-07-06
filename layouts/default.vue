@@ -1,7 +1,14 @@
 <template>
-  <div>
+
+  <!-- AJAX Loading-Animation -->
+  <div v-if="fg.startup_content_loaded!=true && fg.startup_translations_loaded!=true && fg.startup_visitor_loaded!=true">
+    <div class="content_loading">LOADING....</div>
+  </div>
+
+  <div v-else>
     <nuxt />
   </div>
+
 </template>
 
 <style>
@@ -52,4 +59,13 @@ html {
   color: #fff;
   background-color: #35495e;
 }
+
+.content_loading {
+  text-align:center;
+  font-size:40px;
+  font-weight:600;
+  color: #006699;
+  margin-top: 100px;
+}
+
 </style>
