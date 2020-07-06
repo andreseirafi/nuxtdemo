@@ -5,16 +5,16 @@
       <h1>Dear {{fg.visitor.readable_id}}: <br/> Welcome to HOME!!!</h1>
 
       <!-- just a duck-image -->
-      <img style="width:200px;" src="~/assets/duck.png">
+      <img style="width:200px;" src="~/assets/img/duck.png">
       <br/><br/>
 
-      <!--  Stops-List (static stops - without fg.content) -->
-      <nuxt-link to="/stops/1">Jump to Stop 1</nuxt-link><br/><br/>
-      <nuxt-link to="/stops/3">Jump to Stop 2</nuxt-link><br/><br/>
+      <!-- just a svg BUT inline -->
+      <svg_headphones />
+      <br/><br/>
 
-      <!-- Stops-List from fg.content-stops (via ajax) -->
+      <!-- Stops-List -->
       <div v-for="stop in stops" :key="stop.id">
-          <nuxt-link :to="{path: 'stops/' + stop.id}">Jump to Stop {{stop.title}}</nuxt-link><br/><br/>
+          <nuxt-link :to="`/stops/${stop.id}`">Jump to Stop {{stop.title}}</nuxt-link><br/><br/>
       </div>
 
       <!-- Meta Links -->
@@ -38,19 +38,26 @@
 
 
 <script>
-export default {
-  data () {
-    return {
-      nix: 'nix'
-    }
-  },
-  computed: {
-    stops() {
-      if (this.fg.startup_content_loaded) return this.fg.content.stops[2];
-      else return false;
+  import svg_headphones from "~/assets/img/headphones.svg?inline";
+  export default {
+    components: { svg_headphones },
+    data () {
+      return {
+        nix: 'nix'
+      }
+    },
+    computed: {
+      stops() {
+        if (this.fg.startup_content_loaded) return this.fg.content.stops[2];
+        else return false;
+      }
+    },
+    method: {
+      jump_to_other_page(url) {
+        this.$router.push(url);
+      }
     }
   }
-}
 </script>
 
 

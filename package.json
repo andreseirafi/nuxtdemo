@@ -15,5 +15,9 @@
     "@nuxtjs/axios": "^5.11.0",
     "nuxt": "^2.0.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@nuxtjs/svg": "^0.1.11",
+    "less": "^3.11.3",
+    "less-loader": "^6.2.0"
+  }
 }

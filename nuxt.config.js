@@ -17,6 +17,9 @@ export default {
         middleware: ['user-agent']
     },
     
+    // auto-load all existing components
+    components: true,
+
     // page-headers
     head: {
         title: process.env.npm_package_name || '',
@@ -34,7 +37,10 @@ export default {
     loading: { color: '#fff' },
     
     // global CSS
-    css: [],
+    css: [
+        '~/assets/styles/reset.css',
+        '~/assets/styles/global_styles.less'
+    ],
 
     // Plugins to load before mounting the App
     plugins: [
@@ -46,7 +52,8 @@ export default {
     
     // Nuxt.js modules
     modules: [
-        '@nuxtjs/axios'
+        '@nuxtjs/axios',
+        '@nuxtjs/svg'
     ],
 
     // custom routes (for static file generation)
@@ -60,6 +67,8 @@ export default {
 
     // Build configuration (webpack extensions)
     build: {
+        // public path (Default: '/_nuxt/')
+        publicPath: '/nuxt/',
         // extend webpack here
         extend(config, ctx) {},
         // webpack plugins
