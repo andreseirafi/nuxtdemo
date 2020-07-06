@@ -7,7 +7,7 @@ export default {
     mode: 'universal',
     
     // target -> "server" or "static"
-    target: 'static',
+    target: 'server',
     
     // router options
     router: {
